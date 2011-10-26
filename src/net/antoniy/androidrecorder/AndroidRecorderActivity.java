@@ -23,7 +23,6 @@ public class AndroidRecorderActivity extends Activity implements MediaRecorder.O
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
         setContentView(R.layout.main);
 
         Button recordButton = (Button) findViewById(R.id.recordButton);
@@ -78,12 +77,12 @@ public class AndroidRecorderActivity extends Activity implements MediaRecorder.O
         
 		mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_RECOGNITION);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.RAW_AMR);
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
-        mediaRecorder.setAudioChannels(1);
-        mediaRecorder.setAudioSamplingRate(22050);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        mediaRecorder.setOutputFile(SAVE_DIR + "record" + System.currentTimeMillis() + ".mp4");
+//        mediaRecorder.setAudioChannels(1);
+//        mediaRecorder.setAudioSamplingRate(22050);
         mediaRecorder.setMaxDuration(5000);
-        mediaRecorder.setOutputFile(SAVE_DIR + "record" + System.currentTimeMillis() + ".3gp");
         mediaRecorder.setOnInfoListener(this);
         try {
 			mediaRecorder.prepare();
@@ -105,11 +104,13 @@ public class AndroidRecorderActivity extends Activity implements MediaRecorder.O
 			statusTextView.setText("Not recording.");
 			recordButton.setText("Record");
 			
-			try {
-				mediaRecorder.stop();
-			} catch (IllegalStateException e) {
-				Log.w(TAG, "MediaRecorder already stopped.");
-			}
+//			try {
+//				mediaRecorder.stop();
+//			} catch (IllegalStateException e) {
+//				Log.w(TAG, "MediaRecorder already stopped.");
+//			} finally {
+				mediaRecorder.release();
+//			}
 			Log.i(TAG, "Voice recording stopped.");
 		}
 	}
