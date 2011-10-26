@@ -24,36 +24,54 @@ public class AndroidRecorderActivity extends Activity implements MediaRecorder.O
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        if(isRecording) {
+        	initStartRecording();
+        } else {
+        	initStopRecording();
+        }
 
         Button recordButton = (Button) findViewById(R.id.recordButton);
         recordButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				TextView statusTextView = (TextView) findViewById(R.id.statusTextView);
-				Button recordButton = (Button) v;
+				
 				
 				if(!isRecording) {
-					statusTextView.setText("Recording...");
-					recordButton.setText("Stop");
 					startRecording();
-					
-					isRecording = true;
+					initStartRecording();
 				} else {
-					statusTextView.setText("Not recording.");
-					recordButton.setText("Record");
-					
 					try {
 						mediaRecorder.stop();
 					} catch (IllegalStateException e) {
 						Log.w(TAG, "MediaRecorder already stopped.");
 					}
-					
-					isRecording = false;
+					initStopRecording();
 				}
 			}
 		});
         
-        startRecording();
+//        startRecording();
     }
+	
+	private void initStartRecording() {
+		TextView statusTextView = (TextView) findViewById(R.id.statusTextView);
+		Button recordButton = (Button) findViewById(R.id.recordButton);
+		
+		statusTextView.setText("Recording...");
+		recordButton.setText("Stop");
+		
+		isRecording = true;
+	}
+	
+	private void initStopRecording() {
+		TextView statusTextView = (TextView) findViewById(R.id.statusTextView);
+		Button recordButton = (Button) findViewById(R.id.recordButton);
+		
+		statusTextView.setText("Not recording.");
+		recordButton.setText("Record");
+		
+		isRecording = false;
+	}
 	
 	private boolean isCreateMissingDirsSucceed() {
 		File file = new File(SAVE_DIR);
@@ -80,8 +98,8 @@ public class AndroidRecorderActivity extends Activity implements MediaRecorder.O
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         mediaRecorder.setOutputFile(SAVE_DIR + "record" + System.currentTimeMillis() + ".mp4");
-//        mediaRecorder.setAudioChannels(1);
-//        mediaRecorder.setAudioSamplingRate(22050);
+        mediaRecorder.setAudioChannels(1);
+        mediaRecorder.setAudioSamplingRate(22050);
         mediaRecorder.setMaxDuration(5000);
         mediaRecorder.setOnInfoListener(this);
         try {
