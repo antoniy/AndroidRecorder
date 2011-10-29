@@ -97,7 +97,7 @@ public class AndroidRecorderActivity extends Activity implements MediaRecorder.O
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_RECOGNITION);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
-        mediaRecorder.setOutputFile(SAVE_DIR + "record" + System.currentTimeMillis() + ".mp4");
+        mediaRecorder.setOutputFile(SAVE_DIR + "record" + System.currentTimeMillis() + ".3gp");
         mediaRecorder.setAudioChannels(1);
         mediaRecorder.setAudioSamplingRate(22050);
         mediaRecorder.setMaxDuration(5000);
