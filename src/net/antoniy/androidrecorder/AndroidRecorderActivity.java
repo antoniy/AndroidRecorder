@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.media.AudioFormat;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,7 +51,6 @@ public class AndroidRecorderActivity extends Activity implements MediaRecorder.O
 			}
 		});
         
-//        startRecording();
     }
 	
 	private void initStartRecording() {
@@ -95,8 +95,8 @@ public class AndroidRecorderActivity extends Activity implements MediaRecorder.O
         
 		mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_RECOGNITION);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
         mediaRecorder.setOutputFile(SAVE_DIR + "record" + System.currentTimeMillis() + ".mp4");
         mediaRecorder.setAudioChannels(1);
         mediaRecorder.setAudioSamplingRate(22050);
@@ -111,6 +111,17 @@ public class AndroidRecorderActivity extends Activity implements MediaRecorder.O
 		}
         
         mediaRecorder.start();
+	}
+	
+	private void readAudioFile(File file) {
+//		AudioInputStream in = AudioSystem.getAudioInputStream(inputFile);
+//		AudioInputStream din = null;
+//		AudioFormat baseFormat = in.getFormat();
+//		AudioFormat decodedFormat = new AudioFormat(
+//				AudioFormat.Encoding.PCM_SIGNED, baseFormat.getSampleRate(),
+//				8, baseFormat.getChannels(), baseFormat.getChannels(),
+//				baseFormat.getSampleRate(), true);
+//		din = AudioSystem.getAudioInputStream(decodedFormat, in);
 	}
 
 	public void onInfo(MediaRecorder mr, int what, int extra) {
