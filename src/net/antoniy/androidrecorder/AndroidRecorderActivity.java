@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.media.AudioFormat;
+import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.util.Log;
@@ -114,14 +115,14 @@ public class AndroidRecorderActivity extends Activity implements MediaRecorder.O
 	}
 	
 	private void readAudioFile(File file) {
-//		AudioInputStream in = AudioSystem.getAudioInputStream(inputFile);
-//		AudioInputStream din = null;
-//		AudioFormat baseFormat = in.getFormat();
-//		AudioFormat decodedFormat = new AudioFormat(
-//				AudioFormat.Encoding.PCM_SIGNED, baseFormat.getSampleRate(),
-//				8, baseFormat.getChannels(), baseFormat.getChannels(),
-//				baseFormat.getSampleRate(), true);
-//		din = AudioSystem.getAudioInputStream(decodedFormat, in);
+		AudioRecord audioRecord = new AudioRecord(
+				MediaRecorder.AudioSource.VOICE_RECOGNITION, 
+				22050, 
+				AudioFormat.CHANNEL_CONFIGURATION_MONO, 
+				AudioFormat.ENCODING_PCM_8BIT, 
+				4096);
+		
+		
 	}
 
 	public void onInfo(MediaRecorder mr, int what, int extra) {
@@ -133,13 +134,8 @@ public class AndroidRecorderActivity extends Activity implements MediaRecorder.O
 			statusTextView.setText("Not recording.");
 			recordButton.setText("Record");
 			
-//			try {
-//				mediaRecorder.stop();
-//			} catch (IllegalStateException e) {
-//				Log.w(TAG, "MediaRecorder already stopped.");
-//			} finally {
-				mediaRecorder.release();
-//			}
+			mediaRecorder.release();
+			
 			Log.i(TAG, "Voice recording stopped.");
 		}
 	}
